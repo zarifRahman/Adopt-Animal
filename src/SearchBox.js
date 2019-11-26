@@ -2,62 +2,69 @@ import React from "react";
 import { ANIMALS } from 'petfinder-client';
 import { Consumer } from './SearchContext';
 
-class SearchParams extends React.Component {
+class SearchBox extends React.Component {
   
+  handleFormSubmit = (e) => {
+    e.preventDefault();
+    this.props.search();
+  }
+
   render() {
     return (
     <Consumer>
       {context => (
         <div className="search-params">
-          <label htmlFor="location">
-            Location
-            <input
-              onChange={context.handleLocationChange}
-              id="location"
-              value={context.location}
-              placeholder="Location"
-            />
-          </label>
+          <form onSubmit={this.handleFormSubmit}>
+            <label htmlFor="location">
+              Location
+              <input
+                onChange={context.handleLocationChange}
+                id="location"
+                value={context.location}
+                placeholder="Location"
+              />
+            </label>
 
-          <label htmlFor="animal">
-            Animal
-            <select
-              id="animal"
-              value={context.animal}
-              onChange={context.handleAnimalChange}
-              onBlur={context.handleAnimalChange}
-            >
-              <option>All animals</option>
-                {
-                  ANIMALS.map(animal => (
-                    <option key={animal} value={animal}>
-                      {animal}
-                    </option>
-                  ))
-                }
+            <label htmlFor="animal">
+              Animal
+              <select
+                id="animal"
+                value={context.animal}
+                onChange={context.handleAnimalChange}
+                onBlur={context.handleAnimalChange}
+              >
+                <option>All animals</option>
+                  {
+                    ANIMALS.map(animal => (
+                      <option key={animal} value={animal}>
+                        {animal}
+                      </option>
+                    ))
+                  }
 
-            </select>
-          </label>
+              </select>
+            </label>
 
-          <label htmlFor="breed">
-            Breed
-            <select
-              id="breed"
-              value={context.breed}
-              onChange={context.handleBreedChange}
-              onBlur={context.handleBreedChange}
-              disabled={context.breeds.length === 0}
-            >
-              <option/>
-              {context.breeds.map(breed => (
-                <option key={breed} value={breed}>
-                  {breed}
-                </option>
-              ))}
-            </select>
-          </label>
-          
-          <button>Submit</button>
+            <label htmlFor="breed">
+              Breed
+              <select
+                id="breed"
+                value={context.breed}
+                onChange={context.handleBreedChange}
+                onBlur={context.handleBreedChange}
+                disabled={context.breeds.length === 0}
+              >
+                <option/>
+                {context.breeds.map(breed => (
+                  <option key={breed} value={breed}>
+                    {breed}
+                  </option>
+                ))}
+              </select>
+            </label>
+            
+            <button>Submit</button>
+          </form>
         </div>
       )}
       
@@ -66,4 +73,4 @@ class SearchParams extends React.Component {
   }
 }
 
-export default SearchParams;
+export default SearchBox;

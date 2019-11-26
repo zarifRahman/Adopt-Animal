@@ -18,8 +18,14 @@ class Results extends React.Component {
     };
   }
 
-  componentDidMount() {
-    petfinder.pet.find({ output: "full", location: "Seatle, WA" })
+  componentDidMount(){
+    this.search();
+  }
+
+  search = () => {
+    petfinder.pet.find({ output: "full", location:this.props.searchParams.location, 
+      animal: this.props.searchParams.animal, 
+      breed: this.props.searchParams.breed })
       .then(data => {
         let pets;
 
@@ -44,7 +50,7 @@ class Results extends React.Component {
         {JSON.stringify(this.state, null, 4)}
         </code></pre> */}
 
-        <SearchBox />
+        <SearchBox search={this.search} />
 
         {this.state.pets.map(pet => {
           let breed;
@@ -73,4 +79,10 @@ class Results extends React.Component {
   }
 }
 
-export default Results;
+export default function ResultsWithContext(props){
+  return (
+    <Consumer>
+      {context => <Results {...props} searchParams= {context} />}
+    </Consumer>
+  );
+}
